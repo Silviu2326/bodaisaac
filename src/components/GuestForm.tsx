@@ -82,24 +82,24 @@ const GuestForm: React.FC = () => {
         <div className="text-center py-12">
           <div className="relative inline-flex">
             <div className="absolute inset-0 animate-ping">
-              <CheckCircle className="w-16 h-16 text-green-500/30" />
+              <CheckCircle className="w-16 h-16 text-green-500/30 dark:text-green-400/30" />
             </div>
-            <CheckCircle className="w-16 h-16 text-green-500 relative" />
+            <CheckCircle className="w-16 h-16 text-green-500 dark:text-green-400 relative" />
           </div>
-          <h3 className="text-2xl font-script text-gray-800 mt-6 mb-3">¡Gracias por compartir!</h3>
-          <p className="text-gray-600">Tu archivo ha sido enviado correctamente.</p>
+          <h3 className="text-2xl font-script text-gray-800 dark:text-rose-200 mt-6 mb-3">¡Gracias por compartir!</h3>
+          <p className="text-gray-600 dark:text-gray-400">Tu archivo ha sido enviado correctamente.</p>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-8">
           {form.status === 'error' && (
-            <div className="bg-red-50 text-red-700 p-4 rounded-xl flex items-start gap-3 animate-shake">
+            <div className="bg-red-50 text-red-700 dark:bg-red-900/40 dark:text-red-300 p-4 rounded-xl flex items-start gap-3 animate-shake">
               <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0" />
               <p>{form.errorMessage}</p>
             </div>
           )}
           
           <div>
-            <label htmlFor="name" className="block text-gray-700 mb-2 font-medium">
+            <label htmlFor="name" className="block text-gray-700 dark:text-gray-300 mb-2 font-medium">
               Nombre
             </label>
             <input
@@ -107,17 +107,17 @@ const GuestForm: React.FC = () => {
               id="name"
               value={form.name}
               onChange={handleNameChange}
-              className="form-input"
+              className="form-input" // Dark styles handled in index.css
               placeholder="Tu nombre completo"
               disabled={form.status === 'submitting'}
             />
           </div>
           
           <div>
-            <label htmlFor="file" className="block text-gray-700 mb-2 font-medium">
+            <label htmlFor="file" className="block text-gray-700 dark:text-gray-300 mb-2 font-medium">
               Archivo
             </label>
-            <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-rose-300 transition-colors bg-white/50">
+            <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-8 text-center hover:border-rose-300 dark:hover:border-rose-500 transition-colors bg-white/50 dark:bg-slate-700/30">
               <input
                 type="file"
                 id="file"
@@ -136,16 +136,16 @@ const GuestForm: React.FC = () => {
                   />
                 </div>
               ) : (
-                <Upload className="w-16 h-16 mx-auto text-gray-400 mb-4" />
+                <Upload className="w-16 h-16 mx-auto text-gray-400 dark:text-gray-500 mb-4" />
               )}
               
               <label 
                 htmlFor="file" 
-                className="block cursor-pointer text-rose-600 hover:text-rose-700 font-medium"
+                className="block cursor-pointer text-rose-600 hover:text-rose-700 dark:text-rose-400 dark:hover:text-rose-300 font-medium"
               >
                 {filePreview ? 'Cambiar archivo' : 'Seleccionar archivo'}
               </label>
-              <p className="text-sm text-gray-500 mt-2">
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
                 {form.file ? form.file.name : 'JPG, PNG, GIF, MP4 (max. 10MB)'}
               </p>
             </div>

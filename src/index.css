@@ -8,24 +8,30 @@
   body {
     @apply bg-gradient-to-b from-rose-50 via-white to-rose-50 text-gray-800 min-h-screen;
     background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fb7185' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    /* Add dark mode styles */
+    @apply dark:bg-gradient-to-b dark:from-slate-800 dark:via-slate-900 dark:to-slate-800 dark:text-gray-200;
+    /* Removing light SVG background for dark mode, can be replaced with a dark-themed SVG if desired */
+    /* background-image: dark:none; */
   }
   
   h1, h2, h3, h4 {
-    @apply font-serif tracking-wide;
+    @apply font-serif tracking-wide dark:text-rose-300; /* Adjusted heading colors for dark mode */
   }
 
   ::selection {
-    @apply bg-rose-200 text-rose-900;
+    @apply bg-rose-200 text-rose-900 dark:bg-rose-700 dark:text-rose-100; /* Dark mode selection styles */
   }
 }
 
 @layer components {
   .btn {
     @apply px-8 py-4 rounded-full transition-all duration-500 font-medium text-center inline-block relative overflow-hidden;
+    /* No specific dark mode needed here unless text color needs to change based on parent */
   }
   
   .btn-primary {
     @apply bg-gradient-to-r from-rose-400 via-rose-500 to-rose-400 bg-[length:200%_100%] text-white shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95;
+    @apply dark:from-rose-500 dark:via-rose-600 dark:to-rose-500 dark:text-white; /* Keep text white, or adjust if needed */
     animation: shimmer 3s infinite;
   }
 
@@ -41,32 +47,48 @@
   .btn-primary::after {
     content: '';
     @apply absolute inset-0 rounded-full bg-white opacity-0 transition-opacity duration-300;
+    /* Consider a dark mode variant for this overlay if it doesn't look good on dark buttons */
+    /* @apply dark:bg-gray-800; */ 
   }
 
   .btn-primary:hover::after {
     @apply opacity-20;
+    /* @apply dark:opacity-10; */ /* Example: make it more subtle in dark mode */
   }
   
   .form-input {
     @apply w-full px-6 py-4 rounded-2xl border-2 border-gray-200 focus:border-rose-300 focus:ring-2 focus:ring-rose-200 focus:ring-opacity-50 transition-all duration-300 bg-white/70 backdrop-blur-sm hover:border-rose-200;
+    @apply dark:bg-slate-700/70 dark:border-slate-600 dark:text-gray-50 dark:placeholder-gray-400 dark:focus:border-rose-500 dark:focus:ring-rose-400 dark:hover:border-rose-400;
   }
   
   .card {
     @apply bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-10 transition-all duration-500 hover:shadow-3xl border border-rose-100/50;
+    @apply dark:bg-slate-800/80 dark:border-slate-700/50 dark:text-gray-200 dark:shadow-rose-500/10;
   }
 
   .photo-frame {
     @apply relative overflow-hidden rounded-3xl shadow-2xl transition-all duration-700 cursor-pointer transform hover:-translate-y-2;
+    /* Dark mode box shadow for photo-frame */
+    @apply dark:shadow-rose-500/20; 
   }
 
+  /* Note: Tailwind's dark: variant doesn't directly work on pseudo-elements in @apply.
+     If ::before and ::after need dark mode specific styles, custom CSS might be needed,
+     or ensure the base image and overlay provide enough contrast in dark mode.
+     For now, the existing overlays might be acceptable or can be tweaked if they look off.
+     The ::after border could be made darker or a different color if white/20 is too stark.
+     e.g. dark:border-slate-700
+  */
   .photo-frame::before {
     content: '';
     @apply absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 opacity-0 transition-opacity duration-500 z-10;
+    /* @apply dark:from-black/60 dark:to-black/40; */ /* Example: make overlay darker if needed */
   }
 
   .photo-frame::after {
     content: '';
     @apply absolute inset-0 border-4 border-white/20 rounded-3xl opacity-0 transition-opacity duration-500 z-20;
+    /* @apply dark:border-slate-600/30; */ /* Example: darker border for dark mode */
   }
 
   .photo-frame:hover::before,
