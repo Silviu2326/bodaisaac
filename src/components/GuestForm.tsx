@@ -3,7 +3,8 @@ import { Upload, CheckCircle, AlertCircle } from 'lucide-react';
 
 interface FormState {
   name: string;
-  file: File | null;
+  // Cambiamos 'file' a 'files' para manejar múltiples archivos
+  files: File[];
   status: 'idle' | 'submitting' | 'success' | 'error';
   errorMessage: string;
 }
@@ -11,36 +12,44 @@ interface FormState {
 const GuestForm: React.FC = () => {
   const [form, setForm] = useState<FormState>({
     name: '',
-    file: null,
+    // Inicializamos 'files' como un array vacío
+    files: [],
     status: 'idle',
     errorMessage: '',
   });
 
-  const [filePreview, setFilePreview] = useState<string | null>(null);
+  // Eliminamos filePreview ya que manejaremos múltiples archivos
+  // const [filePreview, setFilePreview] = useState<string | null>(null);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, name: e.target.value });
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] || null;
+    // Obtenemos todos los archivos seleccionados
+    const selectedFiles = Array.from(e.target.files || []);
     
-    setForm({ ...form, file });
+    // Limitamos a 5 archivos si es necesario, aunque el backend lo maneja, es buena práctica en el frontend también.
+    const filesToUpload = selectedFiles.slice(0, 5);
+
+    setForm({ ...form, files: filesToUpload });
     
-    if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setFilePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      setFilePreview(null);
-    }
+    // Eliminamos la lógica de previsualización de un solo archivo
+    // if (file && file.type.startsWith('image/')) {
+    //   const reader = new FileReader();
+    //   reader.onload = () => {
+    //     setFilePreview(reader.result as string);
+    //   };
+    //   reader.readAsDataURL(file);
+    // } else {
+    //   setFilePreview(null);
+    // }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Validaciones
     if (!form.name.trim()) {
       setForm({
         ...form,
@@ -50,30 +59,72 @@ const GuestForm: React.FC = () => {
       return;
     }
 
-    if (!form.file) {
+    // Validar que haya al menos un archivo seleccionado
+    if (form.files.length === 0) {
       setForm({
         ...form,
         status: 'error',
-        errorMessage: 'Per favor, puja un arxiu',
+        errorMessage: 'Per favor, puja almenys un arxiu',
       });
       return;
     }
 
-    setForm({ ...form, status: 'submitting' });
+    setForm({ ...form, status: 'submitting', errorMessage: '' });
     
-    setTimeout(() => {
-      setForm({
-        name: '',
-        file: null,
-        status: 'success',
-        errorMessage: '',
+    // Crear FormData
+    const formData = new FormData();
+    formData.append('nombre', form.name);
+    form.files.forEach((file, index) => {
+      formData.append('archivos', file);
+    });
+
+    try {
+      // Realizar la petición POST
+      const response = await fetch('https://fitoffice-a7ed6ea26ba4.herokuapp.com/api/bodaisaac/subir', {
+        method: 'POST',
+        body: formData,
+        // No es necesario establecer el Content-Type para form-data, fetch lo hace automáticamente
       });
-      setFilePreview(null);
-      
-      setTimeout(() => {
-        setForm(prev => ({ ...prev, status: 'idle' }));
-      }, 3000);
-    }, 1500);
+
+      if (response.ok) {
+        // Petición exitosa
+        setForm({
+          name: '',
+          files: [],
+          status: 'success',
+          errorMessage: '',
+        });
+        // setFilePreview(null); // Ya no usamos preview
+        
+        // Opcional: resetear el input de archivo para permitir subir los mismos archivos de nuevo si se desea
+        const fileInput = document.getElementById('file') as HTMLInputElement;
+        if (fileInput) {
+          fileInput.value = '';
+        }
+
+        // Volver al estado idle después de un tiempo
+        setTimeout(() => {
+          setForm(prev => ({ ...prev, status: 'idle' }));
+        }, 3000);
+
+      } else {
+        // Petición fallida
+        const errorData = await response.json(); // Asumiendo que el backend devuelve JSON con detalles del error
+        setForm({
+          ...form,
+          status: 'error',
+          errorMessage: errorData.message || 'Error en l\'enviament de l\'arxiu.',
+        });
+      }
+
+    } catch (error: any) {
+      // Error de red u otro error
+      setForm({
+        ...form,
+        status: 'error',
+        errorMessage: error.message || 'Error de connexió. Torna a intentar-ho.',
+      });
+    }
   };
 
   return (
@@ -115,7 +166,7 @@ const GuestForm: React.FC = () => {
           
           <div>
             <label htmlFor="file" className="block text-gray-700 mb-2 font-medium">
-              Arxiu
+              Arxius
             </label>
             <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-rose-300 transition-colors bg-white/50">
               <input
@@ -124,10 +175,12 @@ const GuestForm: React.FC = () => {
                 onChange={handleFileChange}
                 className="hidden"
                 accept="image/*,video/*"
+                multiple // Permitir selección de múltiples archivos
                 disabled={form.status === 'submitting'}
               />
               
-              {filePreview ? (
+              {/* Eliminamos la previsualización de un solo archivo */}
+              {/* {filePreview ? (
                 <div className="mb-4">
                   <img 
                     src={filePreview} 
@@ -135,18 +188,20 @@ const GuestForm: React.FC = () => {
                     className="max-h-48 mx-auto rounded-lg shadow-lg" 
                   />
                 </div>
-              ) : (
+              ) : ( */}
                 <Upload className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-              )}
+              {/* )} */}
               
               <label 
                 htmlFor="file" 
                 className="block cursor-pointer text-rose-600 hover:text-rose-700 font-medium"
               >
-                {filePreview ? 'Canviar arxiu' : 'Seleccionar arxiu'}
+                {/* Actualizamos el texto del label */}
+                {form.files.length > 0 ? `Canviar arxius (${form.files.length} seleccionat${form.files.length > 1 ? 's' : ''})` : 'Seleccionar arxius'}
               </label>
               <p className="text-sm text-gray-500 mt-2">
-                {form.file ? form.file.name : 'JPG, PNG, GIF, MP4 (màx. 10MB)'}
+                {/* Actualizamos el texto de ayuda */}
+                {form.files.length > 0 ? form.files.map(f => f.name).join(', ') : 'JPG, PNG, GIF, MP4 (màx. 5 arxius, 10MB cadascun recomanat)'}
               </p>
             </div>
           </div>
