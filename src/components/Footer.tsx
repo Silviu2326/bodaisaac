@@ -15,7 +15,7 @@ const Footer: React.FC = () => {
         <div className="h-px w-16 bg-gradient-to-l from-transparent to-rose-200"></div>
       </div>
       <p className="text-gray-600 font-serif italic text-lg">
-        Gracias por compartir con nosotros este día tan especial
+        Gràcies per compartir amb nosaltres este dia tan especial
       </p>
       <div className="mt-8 flex justify-center gap-3">
         <span className="w-2 h-2 rounded-full bg-rose-300 animate-pulse"></span>

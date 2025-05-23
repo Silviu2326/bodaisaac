@@ -4,18 +4,18 @@ const PhotoGallery: React.FC = () => {
   const photos = [
     {
       id: 1,
-      src: "https://images.pexels.com/photos/1024993/pexels-photo-1024993.jpeg",
-      alt: "Pareja en la playa al atardecer",
+      src: "/src/fotos/WhatsApp Image 2025-05-11 at 20.05.01.jpeg",
+      alt: "Parella en la platja al capvespre",
     },
     {
       id: 2,
-      src: "https://images.pexels.com/photos/1444442/pexels-photo-1444442.jpeg",
-      alt: "Pareja en un jardín",
+      src: "/src/fotos/WhatsApp Image 2025-05-11 at 20.16.26 (1).jpeg",
+      alt: "Parella en un jardí",
     },
     {
       id: 3,
-      src: "https://images.pexels.com/photos/3650469/pexels-photo-3650469.jpeg",
-      alt: "Manos con anillos de boda",
+      src: "/src/fotos/WhatsApp Image 2025-05-11 at 20.16.26 (2).jpeg",
+      alt: "Mans amb anells de boda",
     },
   ];
 

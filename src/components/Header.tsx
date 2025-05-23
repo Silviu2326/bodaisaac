@@ -13,7 +13,7 @@ const Header: React.FC = () => {
         <HeartIcon className="w-16 h-16 mx-auto text-rose-400 drop-shadow-lg transform hover:scale-110 transition-transform duration-300" />
       </div>
       <h1 className="text-4xl sm:text-5xl md:text-6xl font-script text-rose-800 mb-8 text-shadow hover:text-glow transition-all duration-500">
-        Bienvenidos a la Boda de
+        Benvinguts a la Boda de
       </h1>
       <div className="flex items-center justify-center gap-8 sm:gap-10">
         <h2 className="text-6xl sm:text-7xl md:text-8xl font-script text-gray-700 hover:text-rose-600 transition-colors duration-500 text-shadow transform hover:scale-105">Isaac</h2>
@@ -22,7 +22,7 @@ const Header: React.FC = () => {
       </div>
       <div className="mt-16 max-w-2xl mx-auto px-6">
         <p className="text-2xl text-gray-600 italic font-serif leading-relaxed">
-          "El amor no consiste en mirarse el uno al otro, sino en mirar juntos en la misma dirección."
+          "L'amor no consistix en mirar-se l'un a l'altre, sinó en mirar junts en la mateixa direcció."
         </p>
         <div className="mt-6 flex justify-center gap-3">
           <span className="w-2 h-2 rounded-full bg-rose-300 animate-pulse"></span>
