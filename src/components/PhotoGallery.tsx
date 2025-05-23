@@ -1,20 +1,24 @@
 import React from 'react';
+// Importamos las imágenes directamente
+import foto1 from '../fotos/WhatsApp Image 2025-05-11 at 20.05.01.jpeg';
+import foto2 from '../fotos/WhatsApp Image 2025-05-11 at 20.16.26 (1).jpeg';
+import foto3 from '../fotos/WhatsApp Image 2025-05-11 at 20.16.26 (2).jpeg';
 
 const PhotoGallery: React.FC = () => {
   const photos = [
     {
       id: 1,
-      src: "/src/fotos/WhatsApp Image 2025-05-11 at 20.05.01.jpeg",
+      src: foto1,
       alt: "Parella en la platja al capvespre",
     },
     {
       id: 2,
-      src: "/src/fotos/WhatsApp Image 2025-05-11 at 20.16.26 (1).jpeg",
+      src: foto2,
       alt: "Parella en un jardí",
     },
     {
       id: 3,
-      src: "/src/fotos/WhatsApp Image 2025-05-11 at 20.16.26 (2).jpeg",
+      src: foto3,
       alt: "Mans amb anells de boda",
     },
   ];
