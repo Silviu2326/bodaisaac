@@ -29,8 +29,8 @@ const GuestForm: React.FC = () => {
     // Obtenemos todos los archivos seleccionados
     const selectedFiles = Array.from(e.target.files || []);
     
-    // Limitamos a 5 archivos si es necesario, aunque el backend lo maneja, es buena práctica en el frontend también.
-    const filesToUpload = selectedFiles.slice(0, 5);
+    // Limitamos a 10 archivos
+    const filesToUpload = selectedFiles.slice(0, 10);
 
     setForm({ ...form, files: filesToUpload });
     
@@ -201,7 +201,7 @@ const GuestForm: React.FC = () => {
               </label>
               <p className="text-sm text-gray-500 mt-2">
                 {/* Actualizamos el texto de ayuda */}
-                {form.files.length > 0 ? form.files.map(f => f.name).join(', ') : 'JPG, PNG, GIF, MP4 (màx. 5 arxius, 10MB cadascun recomanat)'}
+                {form.files.length > 0 ? form.files.map(f => f.name).join(', ') : 'JPG, PNG, GIF, MP4 (màx. 10 arxius, 10MB cadascun recomanat)'}
               </p>
             </div>
           </div>
