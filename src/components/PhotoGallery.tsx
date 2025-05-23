@@ -11,11 +11,7 @@ const PhotoGallery: React.FC = () => {
       src: foto1,
       alt: "Parella en la platja al capvespre",
     },
-    {
-      id: 2,
-      src: foto2,
-      alt: "Parella en un jardí",
-    },
+    
     {
       id: 3,
       src: foto3,
@@ -25,7 +21,7 @@ const PhotoGallery: React.FC = () => {
 
   return (
     <section className="mt-20 px-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
         {photos.map((photo, index) => (
           <div 
             key={photo.id} 
